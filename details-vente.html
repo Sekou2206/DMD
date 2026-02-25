@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Détails Vente | DMD AUTO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        :root { 
+            --bg-color: #0b0b0b; 
+            --text-color: #d1d1d1; 
+            --accent-color: #e6e6e6; 
+            --bg-card: #141414; 
+            --border-color: #333; 
+            --font-title: 'Playfair Display', serif; 
+            --font-body: 'Lato', sans-serif; 
+            --font-tech: 'Lato', sans-serif; 
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-color); color: var(--text-color); font-family: var(--font-body); font-weight: 300; overflow-x: hidden; }
+        a { text-decoration: none; color: inherit; transition: 0.3s; } 
+        img { max-width: 100%; display: block; }
+        
+        /* HEADER */
+        header { position: fixed; top: 0; width: 100%; padding: 25px 50px; display: flex; justify-content: space-between; align-items: center; background: var(--bg-color); border-bottom: 1px solid var(--border-color); z-index: 1000; }
+        .nav-group { flex: 1; display: flex; gap: 40px; } .nav-group.left { justify-content: flex-start; } .nav-group.right { justify-content: flex-end; }
+        .logo-container { flex: 0 0 auto; margin: 0 40px; text-align: center; }
+        .logo { font-family: var(--font-title); font-size: 1.5rem; font-weight: 400; letter-spacing: 4px; color: var(--accent-color); text-transform: uppercase; position: relative; display: inline-block; cursor: pointer; }
+        .logo::after { content: 'AUTO'; display: block; font-size: 0.6rem; letter-spacing: 8px; margin-top: 5px; font-family: var(--font-body); font-weight: 300; color: #888; }
+        .nav-link { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; position: relative; color: #888; }
+        .nav-link:hover { color: var(--accent-color); }
+        .menu-toggle { display: none; cursor: pointer; font-size:1.5rem; color:#fff; }
+
+        /* MAIN LAYOUT */
+        main { padding-top: 100px; min-height: 100vh; padding-bottom: 80px; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; display: flex; flex-wrap: wrap; gap: 60px; }
+        .left-col { flex: 1.2; min-width: 300px; }
+        .right-col { flex: 0.8; min-width: 300px; display: flex; flex-direction: column; }
+
+        /* CAR INFO */
+        h1.car-title { font-family: var(--font-title); font-size: 3.5rem; margin-bottom: 10px; line-height: 1; }
+        .car-specs { color: #888; margin-bottom: 30px; font-size: 1.1rem; letter-spacing: 1px; font-family: var(--font-tech); text-transform: uppercase; }
+        
+        /* Description Text */
+        #car-desc { margin-bottom: 40px; color: #aaa; line-height: 1.8; text-align: justify; border-left: 3px solid var(--border-color); padding-left: 20px; font-size: 1.05rem; }
+
+        /* CAROUSEL */
+        .carousel-container { position: relative; width: 100%; margin-bottom: 40px; border: 1px solid var(--border-color); overflow: hidden; background: #000; }
+        .carousel-track { display: flex; transition: transform 0.5s ease-in-out; }
+        .carousel-slide { min-width: 100%; height: 500px; }
+        .carousel-slide img { width: 100%; height:100%; object-fit: cover; }
+        .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: #fff; border: none; padding: 15px; cursor: pointer; z-index: 2; font-size: 2rem; transition: 0.3s; }
+        .carousel-btn:hover { background: rgba(255,255,255,0.8); color: #000; }
+        .prev-btn { left: 0; }
+        .next-btn { right: 0; }
+
+        /* TECHNICAL SHEET (NEW) */
+        .technical-sheet {
+            background: #111;
+            border: 1px solid var(--border-color);
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+        .section-title-tech {
+            font-family: var(--font-tech);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #666;
+            margin-bottom: 25px;
+            display: block;
+            border-bottom: 1px solid #222;
+            padding-bottom: 10px;
+        }
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        .tech-item {
+            display: flex;
+            flex-direction: column;
+        }
+        .tech-label {
+            font-size: 0.75rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+        .tech-value {
+            font-size: 1.1rem;
+            color: #fff;
+            font-weight: 700;
+            font-family: var(--font-tech);
+        }
+        .tech-equip-list {
+            list-style: none;
+            border-top: 1px solid #222;
+            padding-top: 20px;
+        }
+        .tech-equip-list li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 8px;
+            color: #ccc;
+            font-size: 0.9rem;
+        }
+        .tech-equip-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #555;
+        }
+
+        /* PRICE SECTION */
+        .price-section { background: #111; padding: 40px 30px; border: 1px solid var(--border-color); position: sticky; top: 100px; }
+        .price-tag { font-size: 3rem; font-weight: 400; color: #fff; margin-bottom: 10px; display: block; font-family: var(--font-title); }
+        .price-sub { font-size: 0.9rem; color: #666; margin-bottom: 30px; display: block; }
+        
+        .btn-action { width: 100%; padding: 18px; background: #000; border: 1px solid var(--border-color); color: #fff; font-family: var(--font-tech); text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.75rem; cursor: pointer; transition: all 0.3s ease; font-weight: 700; margin-bottom: 15px; }
+        .btn-action:hover { border-color: #fff; background: #0a0a0a; }
+        .btn-action.primary { background: #fff; color: #000; border-color: #fff; }
+        .btn-action.primary:hover { background: #ddd; }
+
+        .conditions-box { max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out; background: #0f0f0f; border-left: 2px solid #fff; }
+        .conditions-box.open { max-height: 500px; padding: 30px; margin-top: 20px; overflow-y: auto; }
+        .cond-list li { margin-bottom: 12px; color: #ccc; line-height: 1.6; list-style: disc; margin-left: 20px; font-size: 0.95rem; }
+        .cond-title { font-family: var(--font-title); font-size: 1.3rem; margin-bottom: 20px; color: #fff; border-bottom: 1px solid #333; padding-bottom: 10px; }
+
+        /* FOOTER */
+        footer { background: #000; padding: 80px 5%; border-top: 1px solid #222; }
+        .footer-grid { display: grid; grid-template-columns: 1fr 1fr 1.5fr; gap: 60px; max-width: 1400px; margin: 0 auto; }
+        .footer-col h4 { font-family: var(--font-tech); font-size: 0.9rem; margin-bottom: 25px; color: #fff; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; }
+        .footer-col p { color: #888; line-height: 1.8; font-size: 0.9rem; margin-bottom: 20px; }
+        .socials a { margin-right: 20px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px; color: #fff; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: #888; transition: 0.3s; font-size: 0.9rem; }
+        .footer-links a:hover { color: #fff; padding-left: 5px; }
+        .map-container { width: 100%; height: 200px; background: #1a1a1a; margin-bottom: 20px; overflow: hidden; border: 1px solid #333; }
+        .map-container iframe { width: 100%; height: 100%; border: 0; filter: grayscale(100%) invert(92%) contrast(83%); }
+        .btn-footer { width: 100%; padding: 15px; background: #fff; color: #000; border: none; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .btn-footer:hover { background: #ccc; }
+        .copyright { margin-top: 80px; text-align: center; font-size: 0.7rem; color: #444; border-top: 1px solid #111; padding-top: 20px; }
+
+        @media (max-width: 992px) { 
+            header { flex-direction: column; padding: 15px; height: auto; } 
+            .nav-group { display: none; width: 100%; flex-direction: column; text-align: center; padding: 20px 0; background: #050505; } 
+            .nav-group.active { display: flex; } 
+            .logo-container { margin: 15px 0; } 
+            .menu-toggle { display: block; position: absolute; right: 20px; top: 25px; } 
+            .container { flex-direction: column; } 
+            h1.car-title { font-size: 2.5rem; } 
+            .footer-grid { grid-template-columns: 1fr; }
+            .tech-grid { grid-template-columns: 1fr; }
+            .price-section { position: static; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+        <ul class="nav-group left"><li><a href="index.html" class="nav-link">Accueil</a></li><li><a href="services.html" class="nav-link">Location</a></li><li><a href="vente.html" class="nav-link active">Vente</a></li></ul>
+        <div class="logo-container"><a href="index.html" class="logo">DMD</a></div>
+        <ul class="nav-group right"><li><a href="depot.html" class="nav-link">Dépôt Vente</a></li><li><a href="recherche.html" class="nav-link">Recherche</a></li><li><a href="contact.html" class="nav-link">Contact</a></li></ul>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="left-col">
+                <!-- TITRE DYNAMIQUE -->
+                <h1 class="car-title" id="car-title">Chargement...</h1>
+                <p class="car-specs" id="car-specs">...</p>
+                
+                <!-- DESCRIPTION PRINCIPALE -->
+                <div id="car-desc">...</div>
+                
+                <!-- CAROUSEL -->
+                <div class="carousel-container">
+                    <div class="carousel-track" id="track">
+                        <!-- Rempli par JS -->
+                    </div>
+                    <button class="carousel-btn prev-btn" onclick="moveCarousel(-1)">&#10094;</button>
+                    <button class="carousel-btn next-btn" onclick="moveCarousel(1)">&#10095;</button>
+                </div>
+
+                <!-- FICHE TECHNIQUE (NOUVEAU) -->
+                <div class="technical-sheet">
+                    <span class="section-title-tech">Fiche Technique & Équipements</span>
+                    <div id="tech-content">
+                        <!-- Injecté par JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-col">
+                <!-- SECTION PRIX -->
+                <div class="price-section">
+                    <span class="section-label" style="font-size:0.75rem; text-transform:uppercase; letter-spacing:2px; color:#666;">Prix de Vente</span>
+                    <span class="price-tag" id="price-tag">...</span>
+                    <span class="price-sub">TTC • Garantie incluse</span>
+                    
+                    <button class="btn-action primary" onclick="toggleCond('achat')">Voir Conditions Achat</button>
+                    <button class="btn-action" onclick="window.location.href='contact.html'">Contacter le vendeur</button>
+                    
+                    <div id="cond-achat" class="conditions-box">
+                        <h3 class="cond-title">Documents Requis pour l'Achat</h3>
+                        <ul class="cond-list">
+                            <li>Pièce d'identité en cours de validité (CNI ou Passeport)</li>
+                            <li>Justificatif de domicile de moins de 3 mois</li>
+                            <li>Relevé d'identité bancaire (RIB)</li>
+                            <li>Permis de conduire</li>
+                            <li>Justificatif de revenus (si financement)</li>
+                        </ul>
+                        <div style="margin-top:25px; text-align:center;">
+                            <a href="https://wa.me/1234567890" class="btn-action primary" target="_blank" style="display:block; text-align:center; border:none;">Discuter sur WhatsApp</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="margin-bottom: 20px;">DMD</div>
+                <p>L'excellence automobile. Une sélection stricte de véhicules d'exception pour une clientèle exigeante.</p>
+                <div class="socials">
+                    <a href="#">Instagram</a> 
+                    <a href="#">Facebook</a>
+                    <a href="#">LinkedIn</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Navigation</h4>
+                <ul class="footer-links">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="services.html">Location</a></li>
+                    <li><a href="vente.html">Vente</a></li>
+                    <li><a href="depot.html">Dépôt Vente</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Nous Trouver</h4>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2624.215013230877!2d2.292292615509614!3d48.85837007928757!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47e66e2964e34e2d%3A0x8ddca9ee380ef7e0!2sTour%20Eiffel!5e0!3m2!1sfr!2sfr!4v1614160000000!5m2!1sfr!2sfr" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+                <a href="contact.html"><button class="btn-footer">Prendre Rendez-vous</button></a>
+            </div>
+        </div>
+        <p class="copyright">&copy; 2023 DMD AUTO. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        // BASE DE DONNÉES VÉHICULES
+        const carData = [
+            {
+                id: 0,
+                title: "Mercedes AMG GT",
+                specs: "2021 • 12 000 km • 585 Ch",
+                desc: "La Mercedes-AMG GT incarne le luxe sportif ultime. Avec sa ligne sculptée et son moteur V8 biturbo positionné en porte-à-faux avant, elle offre une expérience de conduite pure. Cette finition Nappa Exclusive associe le confort maximal à des performances de course grâce au pack Sport Plus.",
+                price: "145 000 €",
+                images: [
+                    "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=1200&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?q=80&w=1200&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1603584173870-7b23194d3d15?q=80&w=1200&auto=format&fit=crop"
+                ],
+                // Contenu technique HTML personnalisé pour ce véhicule
+                techContent: `
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <span class="tech-label">Moteur</span>
+                            <span class="tech-value">V8 4.0L Bi-Turbo</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-label">Puissance</span>
+                            <span class="tech-value">585 ch</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-label">0-100 km/h</span>
+                            <span class="tech-value">3.6 s</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-label">Couple</span>
+                            <span class="tech-value">700 Nm</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-label">Transmission</span>
+                            <span class="tech-value">AMG Speedshift 7G</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-label">Carburant</span>
+                            <span class="tech-value">Essence</span>
+                        </div>
+                    </div>
+                    <ul class="tech-equip-list">
+                        <li>Sièges Performance en cuir Nappa chauffants et ventilés</li>
+                        <li>Système audio High-End Burmester® 3D</li>
+                        <li>Head-Up Display en couleurs</li>
+                        <li>Jantes forgées AMG 20" (pneus avant/arrière différents)</li>
+                        <li>Pack Parking avec caméra 360°</li>
+                    </ul>
+                `
+            },
+            {
+                id: 1,
+                title: "Porsche 911 Carrera S",
+                specs: "2022 • 5 000 km • 450 Ch",
+                desc: "L'icône du sport automobile, redéfinie. La 911 Carrera S combine une tradition inégalée à une technologie de pointe. Son bi-turbo de 3.0 litres offre une réponse immédiate, tandis que le châssis PASM garantit une tenue de route précise sur circuit comme sur route.",
+                price: "155 000 €",
+                images: [
+                    "https://images.unsplash.com/photo-1503376763036-066120622c74?q=80&w=1200&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1614162692292-7ac56d7f373d?q=80&w=1200&auto=format&fit=crop"
+                ],
+                techContent: `
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <span class="tech-label">Moteur</span>
+                            <span class="tech-value">Flat-6 3.0L Bi-Turbo</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-label">Puissance</span>
+                            <span class="tech-value">450 ch</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-label">0-100 km/h</span>
+                            <span class="tech-value">3.7 s</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-label">Vitesse Max</span>
+                            <span class="tech-value">308 km/h</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-label">Boîte</span>
+                            <span class="tech-value">PDK 8 rapports</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-label">Transmission</span>
+                            <span class="tech-value">Intégrale (AWD)</span>
+                        </div>
+                    </div>
+                    <ul class="tech-equip-list">
+                        <li>Porsche Active Suspension Management (PASM)</li>
+                        <li>Sport Chrono Package</li>
+                        <li>Échappement sport à commandes électriques</li>
+                        <li>Intérieur cuir exclusif Tango</li>
+                        <li>Système de navigation Porsche Communication</li>
+                    </ul>
+                `
+            },
+            {
+                id: 2,
+                title: "BMW M4 Compétition",
+                specs: "2020 • 25 000 km • 510 Ch",
+                desc: "Le compromis parfait entre sportivité brute et usage quotidien. Avec son kit carrosserie M spécifique et son moteur 6 cylindres en ligne, cette M4 Compétition délivre une puissance impressionnante. Équipée du pack M Performance, elle se distingue visuellement et techniquement.",
+                price: "82 000 €",
+                images: [
+                    "https://images.unsplash.com/photo-1555215695-3004980adade?q=80&w=1200&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1580273916550-e323be2ae537?q=80&w=1200&auto=format&fit=crop"
+                ],
+                techContent: `
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <span class="tech-label">Moteur</span>
+                            <span class="tech-value">6 Cylindres en ligne TwinPower Turbo</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-label">Puissance</span>
+                            <span class="tech-value">510 ch</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-label">0-100 km/h</span>
+                            <span class="tech-value">3.9 s</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-label">Couple</span>
+                            <span class="tech-value">650 Nm</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-label">Boîte</span>
+                            <span class="tech-value">M Steptronic 8 rapports</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-label">Propulsion</span>
+                            <span class="tech-value">M xDrive (Option)</span>
+                        </div>
+                    </div>
+                    <ul class="tech-equip-list">
+                        <li>Freins carbone-céramique (M Carbon Ceramic)</li>
+                        <li>Jantes forgées M 19" / 20"</li>
+                        <li>Spoiler arrière en carbone (M Performance)</li>
+                        <li>Sièges M Sport avec fonction de massage</li>
+                        <li>Harman Kardon Surround Sound</li>
+                    </ul>
+                `
+            },
+            {
+                id: 3,
+                title: "Audi RS7 Sportback",
+                specs: "2023 • 2 000 km • 600 Ch",
+                desc: "Technologie pointue et confort absolu. Le summum de la catégorie Sportback. Avec sa silhouette élancée et son habitacle luxueux, l'RS7 offre une expérience de conduite sophistiquée, soutenue par un système de traction intégrale Quattro ultra.",
+                price: "165 000 €",
+                images: [
+                    "https://images.unsplash.com/photo-1603584173870-7b23194d3d15?q=80&w=1200&auto=format&fit=crop",
+                    "https://images.unsplash.com/photo-1616422285623-13ff0162193c?q=80&w=1200&auto=format&fit=crop"
+                ],
+                techContent: `
+                    <div class="tech-grid">
+                        <div class="tech-item">
+                            <span class="tech-label">Moteur</span>
+                            <span class="tech-value">V8 4.0L TFSI</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-label">Puissance</span>
+                            <span class="tech-value">600 ch</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-label">0-100 km/h</span>
+                            <span class="tech-value">3.6 s</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-label">Vitesse Max</span>
+                            <span class="tech-value">305 km/h (bridée)</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-label">Boîte</span>
+                            <span class="tech-value">Tiptronic 8 rapports</span>
+                        </div>
+                        <div class="tech-item">
+                            <span class="tech-label">Transmission</span>
+                            <span class="tech-value">Quattro AWD</span>
+                        </div>
+                    </div>
+                    <ul class="tech-equip-list">
+                        <li>Direction intégrale dynamique (all-wheel steering)</li>
+                        <li>Différentiel sport central</li>
+                        <li>Audi Matrix LED headlights</li>
+                        <li>Valcona cuir avec coutures contrastées</li>
+                        <li>Bang & Olufsen Premium 3D Sound</li>
+                    </ul>
+                `
+            }
+        ];
+
+        // LOGIQUE DE CHARGEMENT
+        const urlParams = new URLSearchParams(window.location.search);
+        const carId = urlParams.get('car');
+        const currentCar = carData[carId] || carData[0];
+
+        // CHARGEMENT DU DOM
+        document.addEventListener('DOMContentLoaded', () => {
+            document.title = `${currentCar.title} | Vente | DMD AUTO`;
+            
+            document.getElementById('car-title').innerText = currentCar.title;
+            document.getElementById('car-specs').innerText = currentCar.specs;
+            document.getElementById('car-desc').innerText = currentCar.desc;
+            document.getElementById('price-tag').innerText = currentCar.price;
+            document.getElementById('tech-content').innerHTML = currentCar.techContent;
+
+            // Images Carousel
+            const track = document.getElementById('track');
+            track.innerHTML = currentCar.images.map(src => `<div class="carousel-slide"><img src="${src}" alt="${currentCar.title}"></div>`).join('');
+        });
+
+        // LOGIQUE CAROUSEL
+        let currentIndex = 0;
+        let slides = []; // Sera rempli après le chargement du DOM
+        
+        // Fonction mise à jour pour récupérer les slides après injection JS
+        function initSlides() {
+            slides = document.querySelectorAll('.carousel-slide');
+        }
+
+        function moveCarousel(direction) {
+            if(slides.length === 0) initSlides();
+            currentIndex += direction;
+            if (currentIndex < 0) currentIndex = slides.length - 1;
+            if (currentIndex >= slides.length) currentIndex = 0;
+            const track = document.getElementById('track');
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+
+        // Initialiser les slides au chargement
+        window.addEventListener('load', initSlides);
+
+        // CONDITION TOGGLE
+        function toggleCond(type) { 
+            const box = document.getElementById('cond-' + type); 
+            const allBoxes = document.querySelectorAll('.conditions-box'); 
+            allBoxes.forEach(b => { if(b !== box) b.classList.remove('open'); }); 
+            box.classList.toggle('open'); 
+        }
+
+        function toggleMenu() { 
+            document.querySelectorAll('.nav-group').forEach(g => g.classList.toggle('active')); 
+        }
+    </script>
+</body>
+</html>
